@@ -1,0 +1,148 @@
+from ply.yacc import yacc
+
+codigo_gerado = []
+
+def p_PROGRAM(regras):
+    '''
+    PROGRAM : DEVICES CMDS
+    '''
+    buffer = f"{regras[1]} {regras[2]}"
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_DEVICES(regras):
+    '''
+    DEVICES : DEVICE DEVICES
+            | DEVICE
+    '''
+
+    if len(regras) == 3:
+        buffer = f"{regras[1]} {regras[2]}"
+    else:
+        buffer = f"{regras[1]}"
+
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_DEVICE(regras):
+    '''
+    DEVICE : dispositivo doispontos abrechaves namedevice fechachaves
+           | dispositivo doispontos abrechaves namedevice virgula observation fechachaves
+    '''
+
+    if len(regras) == 6:
+        buffer = f"{regras[1]}: {{{regras[4]}}}"
+    else:
+        buffer = f"{regras[1]}: {{{regras[4]},{regras[6]}}}"
+
+
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_CMDS(regras):
+    '''
+    CMDS : CMD ponto CMDS
+         | CMD ponto
+    '''
+
+    if len(regras) == 4:
+        buffer = f"{regras[1]}.{regras[3]}"
+    else:
+        buffer = f"{regras[1]}."
+
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_CMD(regras):
+    '''
+    CMD: ATTRIB
+       | OBSACT
+       | ACT
+    '''
+    buffer = f"{regras[1]}"
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_ATTRIB(regras):
+    '''
+    ATTRIB : set observation igual VAR
+    '''
+    buffer = f"set {regras[2]}={regras[4]}"
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_OBSACT(regras):
+    '''
+    OBSACT : se OBS entao ACT
+           | se OBS entao ACT senao ACT
+    '''
+    if len(regras) == 5:
+        buffer = f"se {regras[2]} entao {regras[4]}"
+    else:
+        buffer = f"se {regras[2]} entao {regras[4]} senao {regras[6]}"
+
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_OBS(regras):
+    '''
+    OBS : observation oplogic VAR
+        | observation oplogic VAR && OBS
+    '''
+    if len(regras) == 4:
+        buffer = f"{regras[1]} {regras[2]} {regras[3]}"
+    else:
+        buffer = f"{regras[1]} {regras[2]} {regras[3]} && {regras[5]}"
+
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_VAR_num(regras):
+    '''
+    VAR : num
+    '''
+    buffer = f"{regras[1]}"
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_VAR_bool(regras):
+    '''
+    VAR : bool
+    '''
+    buffer = f"{regras[1]}"
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_ACT(regras):
+    '''
+    ACT : ACTION namedevice
+        | enviar alerta abreparenteses msg fechaparenteses namedevice
+        | enviar alerta abreparenteses msg virgula observation fechaparenteses namedevice
+    '''
+    if len(regras) == 3:
+        buffer = f"{regras[1]} {regras[2]}"
+    elif len(regras) == 7:
+        buffer = f"enviar alerta ({regras[4]}) {regras[6]}"
+    else:
+        buffer = f"enviar alerta ({regras[4]},{regras[6]}) {regras[8]}"
+
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_ACTION_ligar(regras):
+    '''
+    ACTION: ligar
+    '''
+    buffer = f"ligar"
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+def p_ACTION_desligar(regras):
+    '''
+    ACTION: desligar
+    '''
+    buffer = f"desligar"
+    regras[0] = buffer
+    codigo_gerado.append(buffer)
+
+parser = yacc()
