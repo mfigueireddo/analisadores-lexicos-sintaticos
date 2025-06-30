@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'False True abreaspas abrechaves abreparenteses alerta andand desligar dispositivo doispontos entao enviar fechaaspas fechachaves fechaparenteses identificador igual ligar numero operadorlogico para ponto se senao set string todos virgula\n    PROGRAM : DEVICES CMDS\n    \n    DEVICES : DEVICE DEVICES\n            | DEVICE\n    \n    DEVICE : dispositivo doispontos abrechaves identificador fechachaves\n           | dispositivo doispontos abrechaves identificador virgula identificador fechachaves\n    \n    CMDS : CMD ponto CMDS\n         | CMD ponto\n    \n    CMD : ATTRIB\n        | OBSACT\n        | ACT\n    \n    ATTRIB : set identificador igual VAR\n    \n    OBSACT : se OBS entao ACT\n           | se OBS entao ACT senao ACT\n    \n    OBS : identificador operadorlogico VAR\n        | identificador operadorlogico VAR andand OBS\n    \n    VAR : numero\n    \n    VAR : True\n        | False\n    \n    ACT : ACTION identificador\n        | enviar alerta string identificador\n        | enviar alerta abreparenteses string virgula identificador fechaparenteses identificador\n        | enviar alerta string para todos doispontos DEVICENAMES\n        | enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES\n    \n    DEVICENAMES : identificador virgula DEVICENAMES\n                | identificador\n    \n    ACTION : ligar\n    \n    ACTION : desligar\n    '
+_lr_signature = 'abreaspas abrechaves abreparenteses alerta andand booleano desligar dispositivo doispontos entao enviar fechaaspas fechachaves fechaparenteses identificador igual ligar numero operadorlogico para ponto se senao set string todos virgula\n    PROGRAM : DEVICES CMDS\n    \n    DEVICES : DEVICE DEVICES\n            | DEVICE\n    \n    DEVICE : dispositivo doispontos abrechaves identificador fechachaves\n           | dispositivo doispontos abrechaves identificador virgula identificador fechachaves\n    \n    CMDS : CMD ponto CMDS\n         | CMD ponto\n    \n    CMD : ATTRIB\n        | OBSACT\n        | ACT\n    \n    ATTRIB : set identificador igual VAR\n    \n    OBSACT : se OBS entao ACT\n           | se OBS entao ACT senao ACT\n    \n    OBS : identificador operadorlogico VAR\n        | identificador operadorlogico VAR andand OBS\n    \n    VAR : numero\n        | booleano\n    \n    ACT : ACTION identificador\n        | enviar alerta string identificador\n        | enviar alerta abreparenteses string virgula identificador fechaparenteses identificador\n        | enviar alerta string para todos doispontos DEVICENAMES\n        | enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES\n    \n    DEVICENAMES : identificador virgula DEVICENAMES\n                | identificador\n    \n    ACTION : ligar\n           | desligar\n    '
     
-_lr_action_items = {'dispositivo':([0,3,41,52,],[4,4,-4,-5,]),'$end':([1,5,18,25,],[0,-1,-7,-6,]),'set':([2,3,16,18,41,52,],[10,-3,-2,10,-4,-5,]),'se':([2,3,16,18,41,52,],[11,-3,-2,11,-4,-5,]),'enviar':([2,3,16,18,27,41,43,52,],[13,-3,-2,13,13,-4,13,-5,]),'ligar':([2,3,16,18,27,41,43,52,],[14,-3,-2,14,14,-4,14,-5,]),'desligar':([2,3,16,18,27,41,43,52,],[15,-3,-2,15,15,-4,15,-5,]),'doispontos':([4,45,60,],[17,50,61,]),'ponto':([6,7,8,9,22,32,33,34,35,36,38,48,53,54,57,59,62,],[18,-8,-9,-10,-19,-11,-16,-17,-18,-12,-20,-13,-22,-25,-21,-24,-23,]),'identificador':([10,11,12,14,15,24,29,42,44,46,50,55,56,61,],[19,21,22,-26,-27,31,38,47,21,51,54,57,54,54,]),'alerta':([13,],[23,]),'abrechaves':([17,],[24,]),'igual':([19,],[26,]),'entao':([20,33,34,35,37,49,],[27,-16,-17,-18,-14,-15,]),'operadorlogico':([21,],[28,]),'senao':([22,36,38,53,54,57,59,62,],[-19,43,-20,-22,-25,-21,-24,-23,]),'string':([23,30,],[29,40,]),'abreparenteses':([23,],[30,]),'numero':([26,28,],[33,33,]),'True':([26,28,],[34,34,]),'False':([26,28,],[35,35,]),'para':([29,55,],[39,58,]),'fechachaves':([31,47,],[41,52,]),'virgula':([31,40,54,],[42,46,56,]),'andand':([33,34,35,37,],[-16,-17,-18,44,]),'todos':([39,58,],[45,60,]),'fechaparenteses':([51,],[55,]),}
+_lr_action_items = {'dispositivo':([0,3,40,51,],[4,4,-4,-5,]),'$end':([1,5,18,25,],[0,-1,-7,-6,]),'set':([2,3,16,18,40,51,],[10,-3,-2,10,-4,-5,]),'se':([2,3,16,18,40,51,],[11,-3,-2,11,-4,-5,]),'enviar':([2,3,16,18,27,40,42,51,],[13,-3,-2,13,13,-4,13,-5,]),'ligar':([2,3,16,18,27,40,42,51,],[14,-3,-2,14,14,-4,14,-5,]),'desligar':([2,3,16,18,27,40,42,51,],[15,-3,-2,15,15,-4,15,-5,]),'doispontos':([4,44,59,],[17,49,60,]),'ponto':([6,7,8,9,22,32,33,34,35,37,47,52,53,56,58,61,],[18,-8,-9,-10,-18,-11,-16,-17,-12,-19,-13,-21,-24,-20,-23,-22,]),'identificador':([10,11,12,14,15,24,29,41,43,45,49,54,55,60,],[19,21,22,-25,-26,31,37,46,21,50,53,56,53,53,]),'alerta':([13,],[23,]),'abrechaves':([17,],[24,]),'igual':([19,],[26,]),'entao':([20,33,34,36,48,],[27,-16,-17,-14,-15,]),'operadorlogico':([21,],[28,]),'senao':([22,35,37,52,53,56,58,61,],[-18,42,-19,-21,-24,-20,-23,-22,]),'string':([23,30,],[29,39,]),'abreparenteses':([23,],[30,]),'numero':([26,28,],[33,33,]),'booleano':([26,28,],[34,34,]),'para':([29,54,],[38,57,]),'fechachaves':([31,46,],[40,51,]),'virgula':([31,39,53,],[41,45,55,]),'andand':([33,34,36,],[-16,-17,43,]),'todos':([38,57,],[44,59,]),'fechaparenteses':([50,],[54,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'PROGRAM':([0,],[1,]),'DEVICES':([0,3,],[2,16,]),'DEVICE':([0,3,],[3,3,]),'CMDS':([2,18,],[5,25,]),'CMD':([2,18,],[6,6,]),'ATTRIB':([2,18,],[7,7,]),'OBSACT':([2,18,],[8,8,]),'ACT':([2,18,27,43,],[9,9,36,48,]),'ACTION':([2,18,27,43,],[12,12,12,12,]),'OBS':([11,44,],[20,49,]),'VAR':([26,28,],[32,37,]),'DEVICENAMES':([50,56,61,],[53,59,62,]),}
+_lr_goto_items = {'PROGRAM':([0,],[1,]),'DEVICES':([0,3,],[2,16,]),'DEVICE':([0,3,],[3,3,]),'CMDS':([2,18,],[5,25,]),'CMD':([2,18,],[6,6,]),'ATTRIB':([2,18,],[7,7,]),'OBSACT':([2,18,],[8,8,]),'ACT':([2,18,27,42,],[9,9,35,47,]),'ACTION':([2,18,27,42,],[12,12,12,12,]),'OBS':([11,43,],[20,48,]),'VAR':([26,28,],[32,36,]),'DEVICENAMES':([49,55,60,],[52,58,61,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -42,16 +42,15 @@ _lr_productions = [
   ('OBSACT -> se OBS entao ACT senao ACT','OBSACT',6,'p_OBSACT','parser.py',83),
   ('OBS -> identificador operadorlogico VAR','OBS',3,'p_OBS','parser.py',98),
   ('OBS -> identificador operadorlogico VAR andand OBS','OBS',5,'p_OBS','parser.py',99),
-  ('VAR -> numero','VAR',1,'p_VAR_num','parser.py',114),
-  ('VAR -> True','VAR',1,'p_VAR_bool','parser.py',121),
-  ('VAR -> False','VAR',1,'p_VAR_bool','parser.py',122),
-  ('ACT -> ACTION identificador','ACT',2,'p_ACT','parser.py',129),
-  ('ACT -> enviar alerta string identificador','ACT',4,'p_ACT','parser.py',130),
-  ('ACT -> enviar alerta abreparenteses string virgula identificador fechaparenteses identificador','ACT',8,'p_ACT','parser.py',131),
-  ('ACT -> enviar alerta string para todos doispontos DEVICENAMES','ACT',7,'p_ACT','parser.py',132),
-  ('ACT -> enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES','ACT',11,'p_ACT','parser.py',133),
-  ('DEVICENAMES -> identificador virgula DEVICENAMES','DEVICENAMES',3,'p_DEVICENAMES','parser.py',160),
-  ('DEVICENAMES -> identificador','DEVICENAMES',1,'p_DEVICENAMES','parser.py',161),
-  ('ACTION -> ligar','ACTION',1,'p_ACTION_ligar','parser.py',176),
-  ('ACTION -> desligar','ACTION',1,'p_ACTION_desligar','parser.py',183),
+  ('VAR -> numero','VAR',1,'p_VAR','parser.py',114),
+  ('VAR -> booleano','VAR',1,'p_VAR','parser.py',115),
+  ('ACT -> ACTION identificador','ACT',2,'p_ACT','parser.py',124),
+  ('ACT -> enviar alerta string identificador','ACT',4,'p_ACT','parser.py',125),
+  ('ACT -> enviar alerta abreparenteses string virgula identificador fechaparenteses identificador','ACT',8,'p_ACT','parser.py',126),
+  ('ACT -> enviar alerta string para todos doispontos DEVICENAMES','ACT',7,'p_ACT','parser.py',127),
+  ('ACT -> enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES','ACT',11,'p_ACT','parser.py',128),
+  ('DEVICENAMES -> identificador virgula DEVICENAMES','DEVICENAMES',3,'p_DEVICENAMES','parser.py',155),
+  ('DEVICENAMES -> identificador','DEVICENAMES',1,'p_DEVICENAMES','parser.py',156),
+  ('ACTION -> ligar','ACTION',1,'p_ACTION','parser.py',171),
+  ('ACTION -> desligar','ACTION',1,'p_ACTION','parser.py',172),
 ]

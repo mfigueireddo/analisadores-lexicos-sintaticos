@@ -32,8 +32,7 @@ tokens = [
     'doispontos',
     'operadorlogico',
     'andand',
-    'True',
-    'False'
+    'booleano'
 ] + list(reservados.values())
 
 # Auxiliares
@@ -54,14 +53,8 @@ def t_numero(t):
     t.value = int(t.value)
     return t
 
-def t_True(t):
-    r'True'
-    t.value = True
-    return t
-
-def t_False(t):
-    r'False'
-    t.value = False
+def t_booleano(t):
+    r'True|False'
     return t
 
 def t_identificador(t):

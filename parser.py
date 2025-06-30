@@ -109,18 +109,13 @@ def p_OBS(regras):
 
     regras[0] = buffer
 
-def p_VAR_num(regras):
+def p_VAR(regras):
     '''
     VAR : numero
+        | booleano
     '''
-    buffer = f"{regras[1]}"
-    regras[0] = buffer
 
-def p_VAR_bool(regras):
-    '''
-    VAR : True
-        | False
-    '''
+    # numero | booleano
     buffer = f"{regras[1]}"
     regras[0] = buffer
 
@@ -171,18 +166,12 @@ def p_DEVICENAMES(regras):
 
     regras[0] = buffer
 
-def p_ACTION_ligar(regras):
+def p_ACTION(regras):
     '''
     ACTION : ligar
+           | desligar
     '''
-    buffer = f"ligar"
-    regras[0] = buffer
-
-def p_ACTION_desligar(regras):
-    '''
-    ACTION : desligar
-    '''
-    buffer = f"desligar"
+    buffer = f"{regras[1]}"
     regras[0] = buffer
 
 def p_error(regras):

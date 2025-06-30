@@ -33,10 +33,13 @@ def main():
     caminho_entrada = sys.argv[1]
 
     # Extrai o nome do arquivo de entrada (ex: entrada1.obs → entrada1)
-    nome_base = os.path.splitext(os.path.basename(caminho_entrada))[0]
+    nome_entrada = os.path.splitext(os.path.basename(caminho_entrada))[0]
 
-    # Define o caminho de saída: saidas/entrada1.py
-    caminho_saida = os.path.join("saidas", f"{nome_base}.py")
+    # Substitui "entrada" por "saida" → entrada1 → saida1
+    nome_saida = nome_entrada.replace("entrada", "saida")
+
+    # Define o caminho de saída: saidas/saida1.py
+    caminho_saida = os.path.join("saidas", f"{nome_saida}.py")
 
     # Garante que o diretório de saída existe
     os.makedirs("saidas", exist_ok=True)
