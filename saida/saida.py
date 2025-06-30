@@ -1,3 +1,3 @@
-dispositivo: {Celular}
-enviar alerta Hora de acordar !
-	Celular .
+dispositivo: {Termometro, temperatura}
+enviar alerta (Temperatura esta em, temperatura)
+	Termometro .
