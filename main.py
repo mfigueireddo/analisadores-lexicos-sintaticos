@@ -1,5 +1,5 @@
 import sys
-from parser import parser, codigo_gerado
+from parser import parser
 import os
 
 def carregar_entrada(caminho_arquivo):
@@ -18,7 +18,7 @@ def salvar_saida(codigo, caminho_saida):
         # Escreve as funções obrigatórias da linguagem ObsAct (em Python)
 
         for linha in codigo:
-            f.write(linha + "\n")
+            f.write(linha)
 
     print(f"[SUCESSO] Código gerado em: {caminho_saida}")
 
@@ -35,7 +35,7 @@ def main():
     codigo_obsact = carregar_entrada(caminho_entrada)
 
     # Analisa e traduz o código usando o parser
-    parser.parse(codigo_obsact)
+    codigo_gerado = parser.parse(codigo_obsact)
 
     # Salva o código traduzido em outro arquivo
     salvar_saida(codigo_gerado, caminho_saida)

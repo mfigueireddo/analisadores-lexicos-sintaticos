@@ -1,15 +1,12 @@
 from ply.yacc import yacc
 from lexer import tokens
 
-codigo_gerado = []
-
 def p_PROGRAM(regras):
     '''
     PROGRAM : DEVICES CMDS
     '''
-    buffer = f"{regras[1]} {regras[2]}"
+    buffer = f"{regras[1]}\n{regras[2]}"
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_DEVICES(regras):
     '''
@@ -18,12 +15,11 @@ def p_DEVICES(regras):
     '''
 
     if len(regras) == 3:
-        buffer = f"{regras[1]} {regras[2]}"
+        buffer = f"{regras[1]}\n{regras[2]}"
     else:
         buffer = f"{regras[1]}"
 
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_DEVICE(regras):
     '''
@@ -34,11 +30,9 @@ def p_DEVICE(regras):
     if len(regras) == 6:
         buffer = f"{regras[1]}: {{{regras[4]}}}"
     else:
-        buffer = f"{regras[1]}: {{{regras[4]},{regras[6]}}}"
-
+        buffer = f"{regras[1]}: {{{regras[4]}, {regras[6]}}}"
 
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_CMDS(regras):
     '''
@@ -47,12 +41,11 @@ def p_CMDS(regras):
     '''
 
     if len(regras) == 4:
-        buffer = f"{regras[1]}.{regras[3]}"
+        buffer = f"{regras[1]}.\n{regras[3]}"
     else:
         buffer = f"{regras[1]}."
 
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_CMD(regras):
     '''
@@ -67,9 +60,8 @@ def p_ATTRIB(regras):
     '''
     ATTRIB : set identificador igual VAR
     '''
-    buffer = f"set {regras[2]}={regras[4]}"
+    buffer = f"set {regras[2]} = {regras[4]}"
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_OBSACT(regras):
     '''
@@ -77,12 +69,11 @@ def p_OBSACT(regras):
            | se OBS entao ACT senao ACT
     '''
     if len(regras) == 5:
-        buffer = f"SE {regras[2]} ENTAO {regras[4]}"
+        buffer = f"se {regras[2]} entao {regras[4]}"
     else:
-        buffer = f"SE {regras[2]} ENTAO {regras[4]} SENAO {regras[6]}"
+        buffer = f"se {regras[2]} entao {regras[4]} senao {regras[6]}"
 
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_OBS(regras):
     '''
@@ -95,7 +86,6 @@ def p_OBS(regras):
         buffer = f"{regras[1]} {regras[2]} {regras[3]} && {regras[5]}"
 
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_VAR_num(regras):
     '''
@@ -120,7 +110,6 @@ def p_ACT(regras):
         buffer = f"{regras[1]} {regras[2]}"
 
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_ACTION_ligar(regras):
     '''
