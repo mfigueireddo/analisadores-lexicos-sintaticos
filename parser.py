@@ -5,6 +5,8 @@ def p_PROGRAM(regras):
     '''
     PROGRAM : DEVICES CMDS
     '''
+
+    # DEVICES CMDS
     buffer = f"{regras[1]}\n{regras[2]}"
     regras[0] = buffer
 
@@ -14,8 +16,11 @@ def p_DEVICES(regras):
             | DEVICE
     '''
 
+    # DEVICE DEVICES
     if len(regras) == 3:
         buffer = f"{regras[1]}\n{regras[2]}"
+    
+    # DEVICE
     else:
         buffer = f"{regras[1]}"
 
@@ -27,8 +32,11 @@ def p_DEVICE(regras):
            | dispositivo doispontos abrechaves identificador virgula identificador fechachaves
     '''
 
+    # dispositivo doispontos abrechaves identificador fechachaves
     if len(regras) == 6:
         buffer = f"{regras[1]}: {{{regras[4]}}}"
+
+    # dispositivo doispontos abrechaves identificador virgula identificador fechachaves
     else:
         buffer = f"{regras[1]}: {{{regras[4]}, {regras[6]}}}"
 
@@ -40,8 +48,11 @@ def p_CMDS(regras):
          | CMD ponto
     '''
 
+    # CMD ponto CMDS
     if len(regras) == 4:
         buffer = f"{regras[1]} .\n{regras[3]}"
+
+    # CMD ponto
     else:
         buffer = f"{regras[1]} ."
 
@@ -53,6 +64,7 @@ def p_CMD(regras):
         | OBSACT
         | ACT
     '''
+    # ATTRIB | OBSACT | ACT
     buffer = f"{regras[1]}"
     regras[0] = buffer
 
@@ -60,6 +72,8 @@ def p_ATTRIB(regras):
     '''
     ATTRIB : set identificador igual VAR
     '''
+
+    # set identificador igual VAR
     buffer = f"set {regras[2]} = {regras[4]}"
     regras[0] = buffer
 
@@ -68,8 +82,12 @@ def p_OBSACT(regras):
     OBSACT : se OBS entao ACT
            | se OBS entao ACT senao ACT
     '''
+
+    # se OBS entao ACT
     if len(regras) == 5:
         buffer = f"se {regras[2]} entao {regras[4]}"
+
+    # se OBS entao ACT senao ACT
     else:
         buffer = f"se {regras[2]} entao {regras[4]} senao {regras[6]}"
 
@@ -80,8 +98,12 @@ def p_OBS(regras):
     OBS : identificador operadorlogico VAR
         | identificador operadorlogico VAR andand OBS
     '''
+
+    # identificador operadorlogico VAR
     if len(regras) == 4:
         buffer = f"{regras[1]} {regras[2]} {regras[3]}"
+
+    # identificador operadorlogico VAR andand OBS
     else:
         buffer = f"{regras[1]} {regras[2]} {regras[3]} && {regras[5]}"
 
@@ -105,21 +127,31 @@ def p_VAR_bool(regras):
 def p_ACT(regras):
     '''
     ACT : ACTION identificador
-        | enviar alerta abreparenteses string virgula identificador fechaparenteses identificador
-        | enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES
         | enviar alerta string identificador
+        | enviar alerta abreparenteses string virgula identificador fechaparenteses identificador
         | enviar alerta string para todos doispontos DEVICENAMES
+        | enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES
     '''
+
+    # ACTION identificador
     if len(regras) == 3:
         buffer = f"{regras[1]} {regras[2]}"
-    elif len(regras) == 9:
-        buffer = f"enviar alerta ({regras[4]}, {regras[6]})\n\t{regras[8]}"
-    elif len(regras) == 12:
-        buffer = f"enviar alerta ({regras[4]}, {regras[6]}) para todos:\n\t{regras[11]}"
+
+    # enviar alerta string identificador
     elif len(regras) == 5:
         buffer = f"enviar alerta {regras[3]}\n\t{regras[4]}"
-    else: 
+    
+    # enviar alerta abreparenteses string virgula identificador fechaparenteses identificador
+    elif len(regras) == 9:
+        buffer = f"enviar alerta ({regras[4]}, {regras[6]})\n\t{regras[8]}"
+    
+    # enviar alerta string para todos doispontos DEVICENAMES
+    elif len(regras) == 8: 
         buffer = f"enviar alerta {regras[3]} para todos:\n\t{regras[7]}"
+    
+    # enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES
+    else:
+        buffer = f"enviar alerta ({regras[4]}, {regras[6]}) para todos:\n\t{regras[11]}"
 
     regras[0] = buffer
 
@@ -129,8 +161,11 @@ def p_DEVICENAMES(regras):
                 | identificador
     '''
 
+    # identificador virgula DEVICENAMES
     if len(regras) == 4:
         buffer = f"{regras[1]}, {regras[3]}"
+
+    # identificador
     else:
         buffer = f"{regras[1]}"
 

@@ -22,14 +22,24 @@ def salvar_saida(codigo, caminho_saida):
 
     print(f"[SUCESSO] Código gerado em: {caminho_saida}")
 
+import sys
+import os
+
 def main():
-    
     if len(sys.argv) < 2:
         print("Uso: python main.py <caminho_para_arquivo_obs>")
         sys.exit(1)
 
     caminho_entrada = sys.argv[1]
-    caminho_saida = "saida/saida.py"
+
+    # Extrai o nome do arquivo de entrada (ex: entrada1.obs → entrada1)
+    nome_base = os.path.splitext(os.path.basename(caminho_entrada))[0]
+
+    # Define o caminho de saída: saidas/entrada1.py
+    caminho_saida = os.path.join("saidas", f"{nome_base}.py")
+
+    # Garante que o diretório de saída existe
+    os.makedirs("saidas", exist_ok=True)
 
     # Lê o código ObsAct de entrada
     codigo_obsact = carregar_entrada(caminho_entrada)
@@ -39,6 +49,7 @@ def main():
 
     # Salva o código traduzido em outro arquivo
     salvar_saida(codigo_gerado, caminho_saida)
+
 
 if __name__ == "__main__":
     main()
