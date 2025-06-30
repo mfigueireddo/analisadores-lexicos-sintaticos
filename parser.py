@@ -171,6 +171,8 @@ def p_ACTION(regras):
     ACTION : ligar
            | desligar
     '''
+
+    # ligar | desligar
     buffer = f"{regras[1]}"
     regras[0] = buffer
 

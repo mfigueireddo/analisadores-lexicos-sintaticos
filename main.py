@@ -15,8 +15,6 @@ def salvar_saida(codigo, caminho_saida):
 
     with open(caminho_saida, "w", encoding="utf-8") as f:
 
-        # Escreve as funções obrigatórias da linguagem ObsAct (em Python)
-
         for linha in codigo:
             f.write(linha)
 
@@ -32,13 +30,13 @@ def main():
 
     caminho_entrada = sys.argv[1]
 
-    # Extrai o nome do arquivo de entrada (ex: entrada1.obs → entrada1)
+    # Extrai o nome do arquivo de entrada
     nome_entrada = os.path.splitext(os.path.basename(caminho_entrada))[0]
 
-    # Substitui "entrada" por "saida" → entrada1 → saida1
+    # Substitui "entrada" por "saida"
     nome_saida = nome_entrada.replace("entrada", "saida")
 
-    # Define o caminho de saída: saidas/saida1.py
+    # Define o caminho de saída
     caminho_saida = os.path.join("saidas", f"{nome_saida}.py")
 
     # Garante que o diretório de saída existe

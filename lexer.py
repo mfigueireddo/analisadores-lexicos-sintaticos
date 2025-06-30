@@ -35,8 +35,10 @@ tokens = [
     'booleano'
 ] + list(reservados.values())
 
-# Auxiliares
+# Variáveis
 t_string = r'"([^\\"]|\\.)*"'
+
+# Auxiliares
 t_igual = r'\='
 t_virgula = r'\,'
 t_ponto = r'\.'
@@ -48,6 +50,8 @@ t_doispontos = r'\:'
 t_operadorlogico = r'(>=|<=|==|!=|>|<)'
 t_andand = r'&&'
 
+# Variáveis
+
 def t_numero(t): 
     r'\d+'
     t.value = int(t.value)
@@ -57,7 +61,8 @@ def t_booleano(t):
     r'True|False'
     return t
 
-def t_identificador(t):
+# Reconhece identificador e reservados
+def t_identificador(t): 
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reservados.get(t.value, 'identificador') 
     return t
