@@ -1,0 +1,69 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    abreparenteses
+    fechaparenteses
+
+Grammar
+
+Rule 0     S' -> PROGRAM
+Rule 1     PROGRAM -> DEVICES CMDS
+Rule 2     DEVICES -> DEVICE DEVICES
+Rule 3     DEVICES -> DEVICE
+Rule 4     DEVICE -> dispositivo doispontos abrechaves identificador fechachaves
+Rule 5     DEVICE -> dispositivo doispontos abrechaves identificador virgula identificador fechachaves
+Rule 6     CMDS -> CMD ponto CMDS
+Rule 7     CMDS -> CMD ponto
+Rule 8     CMD -> ATTRIB
+Rule 9     CMD -> OBSACT
+Rule 10    CMD -> ACT
+Rule 11    ATTRIB -> set identificador igual VAR
+Rule 12    OBSACT -> se OBS entao ACT
+Rule 13    OBSACT -> se OBS entao ACT senao ACT
+Rule 14    OBS -> identificador operadorlogico VAR
+Rule 15    OBS -> identificador operadorlogico VAR andand OBS
+Rule 16    VAR -> numero
+Rule 17    VAR -> booleano
+Rule 18    ACT -> ACTION identificador
+Rule 19    ACTION -> ligar
+Rule 20    ACTION -> desligar
+
+Terminals, with rules where they appear
+
+abrechaves           : 4 5
+abreparenteses       : 
+andand               : 15
+booleano             : 17
+dispositivo          : 4 5
+doispontos           : 4 5
+entao                : 12 13
+error                : 
+fechachaves          : 4 5
+fechaparenteses      : 
+identificador        : 4 5 5 11 14 15 18
+igual                : 11
+ligar                : 19
+numero               : 16
+operadorlogico       : 14 15
+ponto                : 6 7
+se                   : 12 13
+senao                : 13
+set                  : 11
+virgula              : 5
+
+Nonterminals, with rules where they appear
+
+ACT                  : 10 12 13 13
+ACTION               : 18
+ATTRIB               : 8
+CMD                  : 6 7
+CMDS                 : 1 6
+DEVICE               : 2 3
+DEVICES              : 1 2
+OBS                  : 12 13 15
+OBSACT               : 9
+PROGRAM              : 0
+VAR                  : 11 14 15
+desligar             : 20
+

@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'divisao mais menos multiplicacao numero\n    EXPRESSAO : numero OPERACAO numero\n    \n    OPERACAO : mais\n             | menos\n             | multiplicacao\n             | divisao\n    '
+_lr_signature = 'abrechaves abreparenteses andand desligar dispositivo doispontos entao false fechachaves fechaparenteses identificador igual ligar numero operadorlogico ponto se senao set true virgula\n    PROGRAM : DEVICES CMDS\n    \n    DEVICES : DEVICE DEVICES\n            | DEVICE\n    \n    DEVICE : dispositivo doispontos abrechaves identificador fechachaves\n           | dispositivo doispontos abrechaves identificador virgula identificador fechachaves\n    \n    CMDS : CMD ponto CMDS\n         | CMD ponto\n    \n    CMD : ATTRIB\n       | OBSACT\n       | ACT\n    \n    ATTRIB : set identificador igual VAR\n    \n    OBSACT : se OBS entao ACT\n           | se OBS entao ACT senao ACT\n    \n    OBS : identificador operadorlogico VAR\n        | identificador operadorlogico VAR andand OBS\n    \n    VAR : numero\n    \n    VAR : true\n        | false\n    \n    ACT : ACTION identificador\n    \n    ACTION : ligar\n    \n    ACTION : desligar\n    '
     
-_lr_action_items = {'numero':([0,3,4,5,6,7,],[2,8,-2,-3,-4,-5,]),'$end':([1,8,],[0,-1,]),'mais':([2,],[4,]),'menos':([2,],[5,]),'multiplicacao':([2,],[6,]),'divisao':([2,],[7,]),}
+_lr_action_items = {'dispositivo':([0,3,34,41,],[4,4,-4,-5,]),'$end':([1,5,17,23,],[0,-1,-7,-6,]),'set':([2,3,15,17,34,41,],[10,-3,-2,10,-4,-5,]),'se':([2,3,15,17,34,41,],[11,-3,-2,11,-4,-5,]),'ligar':([2,3,15,17,25,34,36,41,],[13,-3,-2,13,13,-4,13,-5,]),'desligar':([2,3,15,17,25,34,36,41,],[14,-3,-2,14,14,-4,14,-5,]),'doispontos':([4,],[16,]),'ponto':([6,7,8,9,21,28,29,30,31,32,39,],[17,-8,-9,-10,-19,-11,-16,-17,-18,-12,-13,]),'identificador':([10,11,12,13,14,22,35,37,],[18,20,21,-20,-21,27,38,20,]),'abrechaves':([16,],[22,]),'igual':([18,],[24,]),'entao':([19,29,30,31,33,40,],[25,-16,-17,-18,-14,-15,]),'operadorlogico':([20,],[26,]),'senao':([21,32,],[-19,36,]),'numero':([24,26,],[29,29,]),'true':([24,26,],[30,30,]),'false':([24,26,],[31,31,]),'fechachaves':([27,38,],[34,41,]),'virgula':([27,],[35,]),'andand':([29,30,31,33,],[-16,-17,-18,37,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'EXPRESSAO':([0,],[1,]),'OPERACAO':([2,],[3,]),}
+_lr_goto_items = {'PROGRAM':([0,],[1,]),'DEVICES':([0,3,],[2,15,]),'DEVICE':([0,3,],[3,3,]),'CMDS':([2,17,],[5,23,]),'CMD':([2,17,],[6,6,]),'ATTRIB':([2,17,],[7,7,]),'OBSACT':([2,17,],[8,8,]),'ACT':([2,17,25,36,],[9,9,32,39,]),'ACTION':([2,17,25,36,],[12,12,12,12,]),'OBS':([11,37,],[19,40,]),'VAR':([24,26,],[28,33,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,10 +26,26 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> EXPRESSAO","S'",1,None,None,None),
-  ('EXPRESSAO -> numero OPERACAO numero','EXPRESSAO',3,'p_EXPRESSAO','parser.py',8),
-  ('OPERACAO -> mais','OPERACAO',1,'p_OPERACAO','parser.py',25),
-  ('OPERACAO -> menos','OPERACAO',1,'p_OPERACAO','parser.py',26),
-  ('OPERACAO -> multiplicacao','OPERACAO',1,'p_OPERACAO','parser.py',27),
-  ('OPERACAO -> divisao','OPERACAO',1,'p_OPERACAO','parser.py',28),
+  ("S' -> PROGRAM","S'",1,None,None,None),
+  ('PROGRAM -> DEVICES CMDS','PROGRAM',2,'p_PROGRAM','parser.py',8),
+  ('DEVICES -> DEVICE DEVICES','DEVICES',2,'p_DEVICES','parser.py',16),
+  ('DEVICES -> DEVICE','DEVICES',1,'p_DEVICES','parser.py',17),
+  ('DEVICE -> dispositivo doispontos abrechaves identificador fechachaves','DEVICE',5,'p_DEVICE','parser.py',30),
+  ('DEVICE -> dispositivo doispontos abrechaves identificador virgula identificador fechachaves','DEVICE',7,'p_DEVICE','parser.py',31),
+  ('CMDS -> CMD ponto CMDS','CMDS',3,'p_CMDS','parser.py',45),
+  ('CMDS -> CMD ponto','CMDS',2,'p_CMDS','parser.py',46),
+  ('CMD -> ATTRIB','CMD',1,'p_CMD','parser.py',59),
+  ('CMD -> OBSACT','CMD',1,'p_CMD','parser.py',60),
+  ('CMD -> ACT','CMD',1,'p_CMD','parser.py',61),
+  ('ATTRIB -> set identificador igual VAR','ATTRIB',4,'p_ATTRIB','parser.py',68),
+  ('OBSACT -> se OBS entao ACT','OBSACT',4,'p_OBSACT','parser.py',76),
+  ('OBSACT -> se OBS entao ACT senao ACT','OBSACT',6,'p_OBSACT','parser.py',77),
+  ('OBS -> identificador operadorlogico VAR','OBS',3,'p_OBS','parser.py',89),
+  ('OBS -> identificador operadorlogico VAR andand OBS','OBS',5,'p_OBS','parser.py',90),
+  ('VAR -> numero','VAR',1,'p_VAR_num','parser.py',102),
+  ('VAR -> true','VAR',1,'p_VAR_bool','parser.py',109),
+  ('VAR -> false','VAR',1,'p_VAR_bool','parser.py',110),
+  ('ACT -> ACTION identificador','ACT',2,'p_ACT','parser.py',117),
+  ('ACTION -> ligar','ACTION',1,'p_ACTION_ligar','parser.py',127),
+  ('ACTION -> desligar','ACTION',1,'p_ACTION_desligar','parser.py',134),
 ]
