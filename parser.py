@@ -5,7 +5,7 @@ def p_PROGRAM(regras):
     '''
     PROGRAM : DEVICES CMDS
     '''
-
+    
     # DEVICES CMDS
     buffer = f"{regras[1]}\n{regras[2]}"
     regras[0] = buffer
@@ -15,11 +15,11 @@ def p_DEVICES(regras):
     DEVICES : DEVICE DEVICES
             | DEVICE
     '''
-
+    
     # DEVICE DEVICES
     if len(regras) == 3:
         buffer = f"{regras[1]}\n{regras[2]}"
-    
+        
     # DEVICE
     else:
         buffer = f"{regras[1]}"
@@ -31,15 +31,14 @@ def p_DEVICE(regras):
     DEVICE : dispositivo doispontos abrechaves identificador fechachaves
            | dispositivo doispontos abrechaves identificador virgula identificador fechachaves
     '''
-
+    
     # dispositivo doispontos abrechaves identificador fechachaves
     if len(regras) == 6:
-        buffer = f"{regras[1]}: {{{regras[4]}}}"
-
+        buffer = f"# Dispositivo: {regras[4]}"
+        
     # dispositivo doispontos abrechaves identificador virgula identificador fechachaves
     else:
-        buffer = f"{regras[1]}: {{{regras[4]}, {regras[6]}}}"
-
+        buffer = f"# Dispositivo: {regras[4]}, {regras[6]}"
     regras[0] = buffer
 
 def p_CMDS(regras):
@@ -47,15 +46,14 @@ def p_CMDS(regras):
     CMDS : CMD ponto CMDS
          | CMD ponto
     '''
-
+    
     # CMD ponto CMDS
     if len(regras) == 4:
-        buffer = f"{regras[1]} .\n{regras[3]}"
-
+        buffer = f"{regras[1]}\n{regras[3]}"
+        
     # CMD ponto
     else:
-        buffer = f"{regras[1]} ."
-
+        buffer = f"{regras[1]}"
     regras[0] = buffer
 
 def p_CMD(regras):
@@ -64,6 +62,7 @@ def p_CMD(regras):
         | OBSACT
         | ACT
     '''
+
     # ATTRIB | OBSACT | ACT
     buffer = f"{regras[1]}"
     regras[0] = buffer
@@ -73,8 +72,8 @@ def p_ATTRIB(regras):
     ATTRIB : set identificador igual VAR
     '''
 
-    # set identificador igual VAR
-    buffer = f"set {regras[2]} = {regras[4]}"
+    # set identificador igual VAR -> var = valor
+    buffer = f"{regras[2]} = {regras[4]}"
     regras[0] = buffer
 
 def p_OBSACT(regras):
@@ -83,14 +82,17 @@ def p_OBSACT(regras):
            | se OBS entao ACT senao ACT
     '''
 
-    # se OBS entao ACT
+
+    # se OBS entao ACT -> if OBS: ACT
     if len(regras) == 5:
-        buffer = f"se {regras[2]} entao {regras[4]}"
+        comandos_indentados = f"    {regras[4]}"
+        buffer = f"if {regras[2]}:\n{comandos_indentados}"
 
-    # se OBS entao ACT senao ACT
+    # se OBS entao ACT senao ACT -> if OBS: ACT else: ACT
     else:
-        buffer = f"se {regras[2]} entao {regras[4]} senao {regras[6]}"
-
+        comandos_then = f"    {regras[4]}"
+        comandos_else = f"    {regras[6]}"
+        buffer = f"if {regras[2]}:\n{comandos_then}\nelse:\n{comandos_else}"
     regras[0] = buffer
 
 def p_OBS(regras):
@@ -105,8 +107,8 @@ def p_OBS(regras):
 
     # identificador operadorlogico VAR andand OBS
     else:
-        buffer = f"{regras[1]} {regras[2]} {regras[3]} && {regras[5]}"
-
+        # transformar && em and do Python
+        buffer = f"{regras[1]} {regras[2]} {regras[3]} and {regras[5]}"
     regras[0] = buffer
 
 def p_VAR(regras):
@@ -114,7 +116,7 @@ def p_VAR(regras):
     VAR : numero
         | booleano
     '''
-
+    
     # numero | booleano
     buffer = f"{regras[1]}"
     regras[0] = buffer
@@ -127,39 +129,43 @@ def p_ACT(regras):
         | enviar alerta string para todos doispontos DEVICENAMES
         | enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES
     '''
-
-    # ACTION identificador
     if len(regras) == 3:
-        buffer = f"{regras[1]} {regras[2]}"
+        buffer = f"{regras[1]}(\"{regras[2]}\")"
 
-    # enviar alerta string identificador
     elif len(regras) == 5:
-        buffer = f"enviar alerta {regras[3]}\n\t{regras[4]}"
-    
-    # enviar alerta abreparenteses string virgula identificador fechaparenteses identificador
+        # alerta("identificador", "mensagem")
+        buffer = f"alerta(\"{regras[4]}\", {regras[3]})"
+
     elif len(regras) == 9:
-        buffer = f"enviar alerta ({regras[4]}, {regras[6]})\n\t{regras[8]}"
-    
-    # enviar alerta string para todos doispontos DEVICENAMES
+        # alerta("identificador", "mensagem", variavel)
+        buffer = f"alerta(\"{regras[8]}\", {regras[4]}, {regras[6]})"
+
     elif len(regras) == 8: 
-        buffer = f"enviar alerta {regras[3]} para todos:\n\t{regras[7]}"
-    
-    # enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES
+        # alerta("device", "mensagem") para cada em DEVICENAMES
+        devices = regras[7].split(", ")
+        calls = '\n'.join(f"alerta(\"{dev.strip()}\", {regras[3]})" for dev in devices)
+        buffer = calls
+
     else:
-        buffer = f"enviar alerta ({regras[4]}, {regras[6]}) para todos:\n\t{regras[11]}"
+        # alerta("device", "mensagem", variavel) para cada em DEVICENAMES
+        devices = regras[11].split(", ")
+        calls = '\n'.join(f"alerta(\"{dev.strip()}\", {regras[4]}, {regras[6]})" for dev in devices)
+        buffer = calls
 
     regras[0] = buffer
+
+
 
 def p_DEVICENAMES(regras):
     '''
     DEVICENAMES : identificador virgula DEVICENAMES
                 | identificador
     '''
-
+    
     # identificador virgula DEVICENAMES
     if len(regras) == 4:
         buffer = f"{regras[1]}, {regras[3]}"
-
+        
     # identificador
     else:
         buffer = f"{regras[1]}"
@@ -171,7 +177,7 @@ def p_ACTION(regras):
     ACTION : ligar
            | desligar
     '''
-
+    
     # ligar | desligar
     buffer = f"{regras[1]}"
     regras[0] = buffer
