@@ -1,0 +1,81 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    nome
+
+Grammar
+
+Rule 0     S' -> PROGRAM
+Rule 1     PROGRAM -> DEVICES CMDS
+Rule 2     DEVICES -> DEVICE DEVICES
+Rule 3     DEVICES -> DEVICE
+Rule 4     DEVICE -> dispositivo doispontos abrechaves namedevice fechachaves
+Rule 5     DEVICE -> dispositivo doispontos abrechaves namedevice virgula observation fechachaves
+Rule 6     CMDS -> CMD ponto CMDS
+Rule 7     CMDS -> CMD ponto
+Rule 8     CMD -> ATTRIB
+Rule 9     CMD -> OBSACT
+Rule 10    CMD -> ACT
+Rule 11    ATTRIB -> set observation igual VAR
+Rule 12    OBSACT -> se OBS entao ACT
+Rule 13    OBSACT -> se OBS entao ACT senao ACT
+Rule 14    OBS -> observation oplogic VAR
+Rule 15    OBS -> observation oplogic VAR andand OBS
+Rule 16    VAR -> num
+Rule 17    VAR -> bool
+Rule 18    ACT -> ACTION namedevice
+Rule 19    ACT -> enviar alerta abreparenteses msg fechaparenteses namedevice
+Rule 20    ACT -> enviar alerta abreparenteses msg virgula observation fechaparenteses namedevice
+Rule 21    ACT -> enviar alerta abreparenteses msg fechaparenteses para todos doispontos NAMEDEVICES
+Rule 22    NAMEDEVICES -> namedevice virgula NAMEDEVICES
+Rule 23    NAMEDEVICES -> namedevice
+Rule 24    ACTION -> ligar
+Rule 25    ACTION -> desligar
+
+Terminals, with rules where they appear
+
+abrechaves           : 4 5
+abreparenteses       : 19 20 21
+alerta               : 19 20 21
+andand               : 15
+bool                 : 17
+desligar             : 25
+dispositivo          : 4 5
+doispontos           : 4 5 21
+entao                : 12 13
+enviar               : 19 20 21
+error                : 
+fechachaves          : 4 5
+fechaparenteses      : 19 20 21
+igual                : 11
+ligar                : 24
+nome                 : 
+num                  : 16
+oplogic              : 14 15
+ponto                : 6 7
+se                   : 12 13
+senao                : 13
+set                  : 11
+virgula              : 5 20 22
+
+Nonterminals, with rules where they appear
+
+ACT                  : 10 12 13 13
+ACTION               : 18
+ATTRIB               : 8
+CMD                  : 6 7
+CMDS                 : 1 6
+DEVICE               : 2 3
+DEVICES              : 1 2
+NAMEDEVICES          : 21 22
+OBS                  : 12 13 15
+OBSACT               : 9
+PROGRAM              : 0
+VAR                  : 11 14 15
+msg                  : 19 20 21
+namedevice           : 4 5 18 19 20 22 23
+observation          : 5 11 14 15 20
+para                 : 21
+todos                : 21
+

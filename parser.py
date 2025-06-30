@@ -1,4 +1,5 @@
 from ply.yacc import yacc
+from lexer import tokens
 
 codigo_gerado = []
 
@@ -26,8 +27,8 @@ def p_DEVICES(regras):
 
 def p_DEVICE(regras):
     '''
-    DEVICE : dispositivo doispontos abrechaves namedevice fechachaves
-           | dispositivo doispontos abrechaves namedevice virgula observation fechachaves
+    DEVICE : dispositivo doispontos abrechaves nome fechachaves
+           | dispositivo doispontos abrechaves nome virgula nome fechachaves
     '''
 
     if len(regras) == 6:
@@ -55,17 +56,16 @@ def p_CMDS(regras):
 
 def p_CMD(regras):
     '''
-    CMD: ATTRIB
+    CMD : ATTRIB
        | OBSACT
        | ACT
     '''
     buffer = f"{regras[1]}"
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_ATTRIB(regras):
     '''
-    ATTRIB : set observation igual VAR
+    ATTRIB : set nome igual VAR
     '''
     buffer = f"set {regras[2]}={regras[4]}"
     regras[0] = buffer
@@ -86,8 +86,8 @@ def p_OBSACT(regras):
 
 def p_OBS(regras):
     '''
-    OBS : observation oplogic VAR
-        | observation oplogic VAR && OBS
+    OBS : nome oplogic VAR
+        | nome oplogic VAR andand OBS
     '''
     if len(regras) == 4:
         buffer = f"{regras[1]} {regras[2]} {regras[3]}"
@@ -103,7 +103,6 @@ def p_VAR_num(regras):
     '''
     buffer = f"{regras[1]}"
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_VAR_bool(regras):
     '''
@@ -111,38 +110,50 @@ def p_VAR_bool(regras):
     '''
     buffer = f"{regras[1]}"
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_ACT(regras):
     '''
-    ACT : ACTION namedevice
-        | enviar alerta abreparenteses msg fechaparenteses namedevice
-        | enviar alerta abreparenteses msg virgula observation fechaparenteses namedevice
+    ACT : ACTION nome
+        | enviar alerta abreparenteses nome fechaparenteses nome 
+        | enviar alerta abreparenteses nome virgula nome fechaparenteses nome
+        | enviar alerta abreparenteses nome fechaparenteses para todos doispontos nomeS
     '''
     if len(regras) == 3:
         buffer = f"{regras[1]} {regras[2]}"
     elif len(regras) == 7:
-        buffer = f"enviar alerta ({regras[4]}) {regras[6]}"
+        buffer = f"alerta ({regras[6]}) {regras[4]}"
     else:
-        buffer = f"enviar alerta ({regras[4]},{regras[6]}) {regras[8]}"
+        buffer = f"alerta ({regras[7]},{regras[4]}) {regras[6]}"
 
     regras[0] = buffer
     codigo_gerado.append(buffer)
+
+def p_nomeS(regras):
+    '''
+    nomeS : nome virgula nomeS
+                | nome
+    '''
+    
+    if len(regras) == 3:
+        buffer = f"{regras[1]}, {regras[2]}"
+    else:
+        buffer = f"{regras[1]}"
+
+    regras[0] = buffer
+    codigo_gerado.append(buffer) 
 
 def p_ACTION_ligar(regras):
     '''
-    ACTION: ligar
+    ACTION : ligar
     '''
     buffer = f"ligar"
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 def p_ACTION_desligar(regras):
     '''
-    ACTION: desligar
+    ACTION : desligar
     '''
     buffer = f"desligar"
     regras[0] = buffer
-    codigo_gerado.append(buffer)
 
 parser = yacc()
