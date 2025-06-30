@@ -96,8 +96,8 @@ def p_VAR_num(regras):
 
 def p_VAR_bool(regras):
     '''
-    VAR : true
-        | false
+    VAR : True
+        | False
     '''
     buffer = f"{regras[1]}"
     regras[0] = buffer
@@ -105,12 +105,21 @@ def p_VAR_bool(regras):
 def p_ACT(regras):
     '''
     ACT : ACTION identificador
+        | enviar alerta abreparenteses string virgula identificador fechaparenteses identificador
         | enviar alerta abreparenteses string virgula identificador fechaparenteses para todos doispontos DEVICENAMES
+        | enviar alerta string identificador
+        | enviar alerta string para todos doispontos DEVICENAMES
     '''
     if len(regras) == 3:
         buffer = f"{regras[1]} {regras[2]}"
-    else:
+    elif len(regras) == 9:
+        buffer = f"enviar alerta ({regras[4]}, {regras[6]})\n\t{regras[8]}"
+    elif len(regras) == 12:
         buffer = f"enviar alerta ({regras[4]}, {regras[6]}) para todos:\n\t{regras[11]}"
+    elif len(regras) == 5:
+        buffer = f"enviar alerta {regras[3]}\n\t{regras[4]}"
+    else: 
+        buffer = f"enviar alerta {regras[3]} para todos:\n\t{regras[7]}"
 
     regras[0] = buffer
 
@@ -146,6 +155,5 @@ def p_error(regras):
         print(f"Erro de sintaxe no token '{regras.type}' (valor: '{regras.value}') na linha {regras.lineno}, posição {regras.lexpos}")
     else:
         print("Erro de sintaxe: fim inesperado da entrada (EOF)")
-
 
 parser = yacc(debug=False)

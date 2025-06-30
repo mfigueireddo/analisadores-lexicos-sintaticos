@@ -6,8 +6,6 @@ reservados = {
     'se': 'se',
     'senao': 'senao',
     'entao': 'entao',
-    'true': 'true',
-    'false': 'false',
     'ligar': 'ligar',
     'desligar': 'desligar',
     'para': 'para',
@@ -33,7 +31,9 @@ tokens = [
     'fechaaspas',
     'doispontos',
     'operadorlogico',
-    'andand'
+    'andand',
+    'True',
+    'False'
 ] + list(reservados.values())
 
 # Auxiliares
@@ -51,6 +51,16 @@ t_andand = r'&&'
 def t_numero(t): 
     r'\d+'
     t.value = int(t.value)
+    return t
+
+def t_True(t):
+    r'True'
+    t.value = True
+    return t
+
+def t_False(t):
+    r'False'
+    t.value = False
     return t
 
 def t_identificador(t):
