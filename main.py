@@ -13,8 +13,25 @@ def carregar_entrada(caminho_arquivo):
 def salvar_saida(codigo, caminho_saida):
     os.makedirs(os.path.dirname(caminho_saida), exist_ok=True)
 
-    with open(caminho_saida, "w", encoding="utf-8") as f:
+    header = '''\
+def ligar(namedevice):
+    print(namedevice + " ligado!")
 
+def desligar(namedevice):
+    print(namedevice + " desligado!")
+
+def alerta(namedevice, msg):
+    print(namedevice + " recebeu o alerta:\\n")
+    print(msg)
+
+def alerta(namedevice, msg, var):
+    print(namedevice + " recebeu o alerta:\\n")
+    print(msg + " " + str(var))
+    '''
+    full_code = header + '\n\n'
+
+    with open(caminho_saida, "w", encoding="utf-8") as f:
+        f.write(full_code)
         for linha in codigo:
             f.write(linha)
 
