@@ -1,5 +1,5 @@
+dispositivo: {monitor}
+dispositivo: {celular}
 dispositivo: {Termometro, temperatura}
-dispositivo: {ventilador, potencia}
-set temperatura = 40.
-set potencia = 90.
-se temperatura > 30 entao ligar ventilador.
+se temperatura > 30 entao enviar alerta (Temperatura em , temperatura) para todos:
+	monitor, celular .

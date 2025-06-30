@@ -9,13 +9,18 @@ reservados = {
     'true': 'true',
     'false': 'false',
     'ligar': 'ligar',
-    'desligar': 'desligar'
+    'desligar': 'desligar',
+    'para': 'para',
+    'todos': 'todos',
+    'enviar': 'enviar',
+    'alerta': 'alerta'
 }
 
 tokens = [
     # Variáveis
     'identificador',
     'numero',
+    'string',
     # Auxiliares
     'igual',
     'virgula',
@@ -24,6 +29,8 @@ tokens = [
     'fechachaves',
     'abreparenteses',
     'fechaparenteses',
+    'abreaspas',
+    'fechaaspas',
     'doispontos',
     'operadorlogico',
     'andand'
@@ -49,6 +56,12 @@ def t_numero(t):
 def t_identificador(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reservados.get(t.value, 'identificador') 
+    return t
+
+def t_string(t):
+    r'"([^\\"]|\\.)*"'
+    # Remove as aspas e interpreta escapes simples (opcional)
+    t.value = t.value[1:-1]
     return t
 
 t_ignore = ' \t\n' 
