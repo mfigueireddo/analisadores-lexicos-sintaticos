@@ -1,2 +1,3 @@
-dispositivo: {ventilador}
-desligar ventilador .
+dispositivo: {Celular}
+enviar alerta Hora de acordar !
+	Celular .
