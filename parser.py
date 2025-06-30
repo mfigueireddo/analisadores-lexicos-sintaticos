@@ -3,157 +3,34 @@ from lexer import tokens
 
 codigo_gerado = []
 
-def p_PROGRAM(regras):
+def p_EXPRESSAO(regras):
     '''
-    PROGRAM : DEVICES CMDS
-    '''
-    buffer = f"{regras[1]} {regras[2]}"
-    regras[0] = buffer
-    codigo_gerado.append(buffer)
-
-def p_DEVICES(regras):
-    '''
-    DEVICES : DEVICE DEVICES
-            | DEVICE
+    EXPRESSAO : numero OPERACAO numero
     '''
 
-    if len(regras) == 3:
-        buffer = f"{regras[1]} {regras[2]}"
-    else:
-        buffer = f"{regras[1]}"
+    operando1 = regras[1]
+    operador = regras[2]
+    operando2 = regras[3]
 
-    regras[0] = buffer
-    codigo_gerado.append(buffer)
+    # Gera a linha de código como string
+    linha_codigo = f"{operando1} {operador} {operando2}"
+    codigo_gerado.append(f"resultado = {linha_codigo}")
 
-def p_DEVICE(regras):
-    '''
-    DEVICE : dispositivo doispontos abrechaves nome fechachaves
-           | dispositivo doispontos abrechaves nome virgula nome fechachaves
-    '''
+    # Também pode armazenar resultado da operação se quiser
+    regras[0] = linha_codigo  # ou o valor computado, mas não obrigatório
+    
 
-    if len(regras) == 6:
-        buffer = f"{regras[1]}: {{{regras[4]}}}"
-    else:
-        buffer = f"{regras[1]}: {{{regras[4]},{regras[6]}}}"
-
-
-    regras[0] = buffer
-    codigo_gerado.append(buffer)
-
-def p_CMDS(regras):
+def p_OPERACAO(regras):
     '''
-    CMDS : CMD ponto CMDS
-         | CMD ponto
-    '''
-
-    if len(regras) == 4:
-        buffer = f"{regras[1]}.{regras[3]}"
-    else:
-        buffer = f"{regras[1]}."
-
-    regras[0] = buffer
-    codigo_gerado.append(buffer)
-
-def p_CMD(regras):
-    '''
-    CMD : ATTRIB
-       | OBSACT
-       | ACT
-    '''
-    buffer = f"{regras[1]}"
-    regras[0] = buffer
-
-def p_ATTRIB(regras):
-    '''
-    ATTRIB : set nome igual VAR
-    '''
-    buffer = f"set {regras[2]}={regras[4]}"
-    regras[0] = buffer
-    codigo_gerado.append(buffer)
-
-def p_OBSACT(regras):
-    '''
-    OBSACT : se OBS entao ACT
-           | se OBS entao ACT senao ACT
-    '''
-    if len(regras) == 5:
-        buffer = f"se {regras[2]} entao {regras[4]}"
-    else:
-        buffer = f"se {regras[2]} entao {regras[4]} senao {regras[6]}"
-
-    regras[0] = buffer
-    codigo_gerado.append(buffer)
-
-def p_OBS(regras):
-    '''
-    OBS : nome oplogic VAR
-        | nome oplogic VAR andand OBS
-    '''
-    if len(regras) == 4:
-        buffer = f"{regras[1]} {regras[2]} {regras[3]}"
-    else:
-        buffer = f"{regras[1]} {regras[2]} {regras[3]} && {regras[5]}"
-
-    regras[0] = buffer
-    codigo_gerado.append(buffer)
-
-def p_VAR_num(regras):
-    '''
-    VAR : num
-    '''
-    buffer = f"{regras[1]}"
-    regras[0] = buffer
-
-def p_VAR_bool(regras):
-    '''
-    VAR : bool
-    '''
-    buffer = f"{regras[1]}"
-    regras[0] = buffer
-
-def p_ACT(regras):
-    '''
-    ACT : ACTION nome
-        | enviar alerta abreparenteses nome fechaparenteses nome 
-        | enviar alerta abreparenteses nome virgula nome fechaparenteses nome
-        | enviar alerta abreparenteses nome fechaparenteses para todos doispontos nomeS
-    '''
-    if len(regras) == 3:
-        buffer = f"{regras[1]} {regras[2]}"
-    elif len(regras) == 7:
-        buffer = f"alerta ({regras[6]}) {regras[4]}"
-    else:
-        buffer = f"alerta ({regras[7]},{regras[4]}) {regras[6]}"
-
-    regras[0] = buffer
-    codigo_gerado.append(buffer)
-
-def p_nomeS(regras):
-    '''
-    nomeS : nome virgula nomeS
-                | nome
+    OPERACAO : mais
+             | menos
+             | multiplicacao
+             | divisao
     '''
     
-    if len(regras) == 3:
-        buffer = f"{regras[1]}, {regras[2]}"
-    else:
-        buffer = f"{regras[1]}"
+    regras[0] = regras[1]  # '+', '-', '*', '/'
 
-    regras[0] = buffer
-    codigo_gerado.append(buffer) 
+def p_error(regras):
+    print("Erro de sintaxe"+ str(regras))
 
-def p_ACTION_ligar(regras):
-    '''
-    ACTION : ligar
-    '''
-    buffer = f"ligar"
-    regras[0] = buffer
-
-def p_ACTION_desligar(regras):
-    '''
-    ACTION : desligar
-    '''
-    buffer = f"desligar"
-    regras[0] = buffer
-
-parser = yacc()
+parser = yacc(debug=False) # construção do parser

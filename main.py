@@ -17,22 +17,6 @@ def salvar_saida(codigo, caminho_saida):
 
         # Escreve as funções obrigatórias da linguagem ObsAct (em Python)
 
-        '''
-        f.write("def ligar(device):\n")
-        f.write("    print(f\"{device} ligado!\")\n\n")
-
-        f.write("def desligar(device):\n")
-        f.write("    print(f\"{device} desligado!\")\n\n")
-
-        f.write("def alerta(device, msg):\n")
-        f.write("    print(f\"{device} recebeu o alerta:\\n{msg}\")\n\n")
-
-        f.write("def alerta_com_valor(device, msg, var):\n")
-        f.write("    print(f\"{device} recebeu o alerta:\\n{msg} {var}\")\n\n")
-
-        f.write("# --- Código traduzido ---\n")
-        '''
-
         for linha in codigo:
             f.write(linha + "\n")
 
