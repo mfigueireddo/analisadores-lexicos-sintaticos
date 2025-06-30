@@ -1,5 +1,5 @@
 dispositivo: {monitor}
 dispositivo: {celular}
 dispositivo: {Termometro, temperatura}
-se temperatura > 30 entao enviar alerta (Temperatura em , temperatura) para todos:
+se temperatura > 30 entao enviar alerta ("Temperatura em ", temperatura) para todos:
 	monitor, celular .

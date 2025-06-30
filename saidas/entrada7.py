@@ -1,3 +1,3 @@
 dispositivo: {Celular}
-enviar alerta Hora de acordar !
+enviar alerta "Hora de acordar !"
 	Celular .

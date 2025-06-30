@@ -37,6 +37,7 @@ tokens = [
 ] + list(reservados.values())
 
 # Auxiliares
+t_string = r'"([^\\"]|\\.)*"'
 t_igual = r'\='
 t_virgula = r'\,'
 t_ponto = r'\.'
@@ -66,12 +67,6 @@ def t_False(t):
 def t_identificador(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     t.type = reservados.get(t.value, 'identificador') 
-    return t
-
-def t_string(t):
-    r'"([^\\"]|\\.)*"'
-    # Remove as aspas e interpreta escapes simples (opcional)
-    t.value = t.value[1:-1]
     return t
 
 t_ignore = ' \t\n' 
