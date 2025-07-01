@@ -36,7 +36,7 @@ tokens = [
 ] + list(reservados.values())
 
 # Variáveis
-t_string = r'"([^\\"]|\\.)*"'
+t_string = r'"(([^\\"]|\\.){0,100})"'
 
 # Auxiliares
 t_igual = r'\='
@@ -63,7 +63,7 @@ def t_booleano(t):
 
 # Reconhece identificador e reservados
 def t_identificador(t): 
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    r'[a-zA-Z]+'  # apenas letras
     t.type = reservados.get(t.value, 'identificador') 
     return t
 

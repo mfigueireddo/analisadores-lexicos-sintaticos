@@ -81,8 +81,7 @@ def p_OBSACT(regras):
     OBSACT : se OBS entao ACT
            | se OBS entao ACT senao ACT
     '''
-
-
+    
     # se OBS entao ACT -> if OBS: ACT
     if len(regras) == 5:
         comandos_indentados = f"    {regras[4]}"
@@ -153,8 +152,6 @@ def p_ACT(regras):
         buffer = calls
 
     regras[0] = buffer
-
-
 
 def p_DEVICENAMES(regras):
     '''

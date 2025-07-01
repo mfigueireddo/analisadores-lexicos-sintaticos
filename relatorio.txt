@@ -1,0 +1,96 @@
+Matheus Figueiredo - 2320813
+Eduardo Neumayer - 
+
+--- * --- * --- * --- * --- * ---
+
+Gramática utilizada
+- Foram adicionadas 4 novas regras, que estão identificadas por (+)
+- Uma gramática foi alterada, identificada por (-)
+
+S' -> PROGRAM
+PROGRAM -> DEVICES CMDS
+DEVICES -> DEVICE DEVICES
+DEVICES -> DEVICE
+DEVICE -> dispositivo : { namedevice }
+DEVICE -> dispositivo : { namedevice , observation }
+CMDS -> CMD . CMDS
+CMDS -> CMD .
+CMD -> ATTRIB
+CMD -> OBSACT
+CMD -> ACT
+ATTRIB -> set observation = VAR
+OBSACT -> se OBS entao ACT
+OBSACT -> se OBS entao ACT senao ACT
+OBS -> observation operadorlogico VAR
+OBS -> observation operadorlogico VAR && OBS
+VAR -> numero
+VAR -> booleano
+ACT : ACTION namedevice
+(-) ACT : enviar alerta string namedevice
+ACT : enviar alerta ( string , observation ) namedevice
+(+) ACT : enviar alerta string para todos : DEVICENAMES
+(+) ACT : enviar alerta ( string , observation ) para todos : DEVICENAMES
+(+) DEVICENAMES : namedevice , DEVICENAMES
+(+) DEVICENAMES : namedevice
+ACTION -> ligar
+ACTION -> desligar
+
+Os 2 casos adicionados de ACT tiverem que ser formulados para atender às demandas dos casos-teste do enunciado.
+DEVICENAMES surgiu como uma maneira de facilitar a escrita de namedevice.
+
+Não foi dada atenção para casos de recursão à esquerda e refatoração.
+
+--- * --- * --- * --- * --- * ---
+
+Funcionamento do programa
+
+Execução 
+$ python main.py entradas/entrada1.obs
+$ python main.py entradas/entrada2.obs
+$ python main.py entradas/entrada3.obs
+$ python main.py entradas/entrada4.obs
+$ python main.py entradas/entrada5.obs
+$ python main.py entradas/entrada6.obs
+$ python main.py entradas/entrada7.obs
+$ python main.py entradas/entrada8.obs
+
+main.py
+- Arquivo que controla a leitura/escrita de dados
+- Lê o arquivo dito pelo usuário e o armazena numa string
+- Ordena parser.parse(), que dá início ao programa de fato
+- Escreve o arquivo de saída
+    + Escreve as 4 funções que estão em todos os .py gerados (ligar, desligar, alerta - 2 parâmetros, alerta - 3 parâmetros)
+    + Escreve o código gerado por parser.py
+
+lexer.py (ply.lex)
+- Define a linguagem aceita pelo analisador
+- Descreve os tokens, as palavras reservadas do sistema e algumas regras
+
+parser.py (ply.yacc)
+- Encarregado por transformar o conteúdo do .obs para o .py
+- Possui a gramática desenvolvida
+- Retorna uma string com código escrito na formatação .py
+
+/entradas
+- Pasta que armazena todas as entradas .obs
+
+/saidas
+- Pasta que armazena todas as saídas .py
+
+--- * --- * --- * --- * --- * ---
+
+Testes
+
+Para a implementação do programa, foram utilizados apenas os 8 casos testes mostrados no enunciado (com algumas adaptações)
+Todos eles se encontram na pasta /entradas.
+Após a conversão, todos os arquivos .py gerados foram executados e funcionaram adequadamente
+
+--- * --- * --- * --- * --- * ---
+
+Observações
+
+1. ATTRIB, OBASCT e OBS sempre são terminados por .
+- Ou seja, para que o programa funciona corretamente, sempre que haja algo como "set (...)", "se (...)" e "(...) operadorlogico (...)", deverá existir um ponto ao final para que sejam reconhecidos corretamente.
+
+2. Em parser.py, namedevice e observation são ambos representados por identificador
+- Em lexer.py é feita uma conferência para ver se os nomes escolhidos pelo usuário não entram em conflito com algum nome reservado para o sistema.
