@@ -1,6 +1,9 @@
 from ply.yacc import yacc
 from lexer import tokens
 
+variaveis_usadas = set()
+variaveis_setadas = set()
+
 def p_PROGRAM(regras):
     '''
     PROGRAM : DEVICES CMDS
@@ -31,15 +34,9 @@ def p_DEVICE(regras):
     DEVICE : dispositivo doispontos abrechaves identificador fechachaves
            | dispositivo doispontos abrechaves identificador virgula identificador fechachaves
     '''
-    
-    # dispositivo doispontos abrechaves identificador fechachaves
-    if len(regras) == 6:
-        buffer = f"# Dispositivo: {regras[4]}"
-        
-    # dispositivo doispontos abrechaves identificador virgula identificador fechachaves
-    else:
-        buffer = f"# Dispositivo: {regras[4]}, {regras[6]}"
-    regras[0] = buffer
+
+    regras[0] = ""  # não gera nada no código
+
 
 def p_CMDS(regras):
     '''
@@ -72,6 +69,8 @@ def p_ATTRIB(regras):
     ATTRIB : set identificador igual VAR
     '''
 
+    variaveis_setadas.add(regras[2])
+
     # set identificador igual VAR -> var = valor
     buffer = f"{regras[2]} = {regras[4]}"
     regras[0] = buffer
@@ -81,7 +80,8 @@ def p_OBSACT(regras):
     OBSACT : se OBS entao ACT
            | se OBS entao ACT senao ACT
     '''
-    
+
+
     # se OBS entao ACT -> if OBS: ACT
     if len(regras) == 5:
         comandos_indentados = f"    {regras[4]}"
@@ -99,6 +99,8 @@ def p_OBS(regras):
     OBS : identificador operadorlogico VAR
         | identificador operadorlogico VAR andand OBS
     '''
+
+    variaveis_usadas.add(regras[1])
 
     # identificador operadorlogico VAR
     if len(regras) == 4:
@@ -137,6 +139,7 @@ def p_ACT(regras):
 
     elif len(regras) == 9:
         # alerta("identificador", "mensagem", variavel)
+        variaveis_usadas.add(regras[6])
         buffer = f"alerta(\"{regras[8]}\", {regras[4]}, {regras[6]})"
 
     elif len(regras) == 8: 
@@ -147,11 +150,14 @@ def p_ACT(regras):
 
     else:
         # alerta("device", "mensagem", variavel) para cada em DEVICENAMES
+        variaveis_usadas.add(regras[6])
         devices = regras[11].split(", ")
         calls = '\n'.join(f"alerta(\"{dev.strip()}\", {regras[4]}, {regras[6]})" for dev in devices)
         buffer = calls
 
     regras[0] = buffer
+
+
 
 def p_DEVICENAMES(regras):
     '''
