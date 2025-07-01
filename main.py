@@ -1,5 +1,5 @@
 import sys
-from parser import parser
+from parser import parser, variaveis_usadas, variaveis_setadas
 import os
 
 def carregar_entrada(caminho_arquivo):
@@ -12,6 +12,9 @@ def carregar_entrada(caminho_arquivo):
 
 def salvar_saida(codigo, caminho_saida):
     os.makedirs(os.path.dirname(caminho_saida), exist_ok=True)
+
+    variaveis_faltando = variaveis_usadas - variaveis_setadas
+    inicializacoes = '\n'.join(f"{var} = 0" for var in variaveis_faltando)
 
     header = '''\
 def ligar(namedevice):
@@ -28,7 +31,7 @@ def alerta(namedevice, msg, var):
     print(namedevice + " recebeu o alerta:\\n")
     print(msg + " " + str(var))
     '''
-    full_code = header + '\n\n'
+    full_code = inicializacoes + '\n\n' + header + '\n\n'
 
     with open(caminho_saida, "w", encoding="utf-8") as f:
         f.write(full_code)
