@@ -10,7 +10,7 @@ def p_PROGRAM(regras):
     '''
     
     # DEVICES CMDS
-    buffer = f"{regras[1]}\n{regras[2]}"
+    buffer = f"{regras[2]}"
     regras[0] = buffer
 
 def p_DEVICES(regras):
@@ -27,7 +27,7 @@ def p_DEVICES(regras):
     else:
         buffer = f"{regras[1]}"
 
-    regras[0] = buffer
+    regras[0] = ""
 
 def p_DEVICE(regras):
     '''
@@ -81,18 +81,19 @@ def p_OBSACT(regras):
            | se OBS entao ACT senao ACT
     '''
 
+    def indentar(codigo):
+        return '\n'.join('    ' + linha for linha in codigo.split('\n'))
 
-    # se OBS entao ACT -> if OBS: ACT
     if len(regras) == 5:
-        comandos_indentados = f"    {regras[4]}"
-        buffer = f"if {regras[2]}:\n{comandos_indentados}"
-
-    # se OBS entao ACT senao ACT -> if OBS: ACT else: ACT
+        comandos_then = indentar(regras[4])
+        buffer = f"if {regras[2]}:\n{comandos_then}"
     else:
-        comandos_then = f"    {regras[4]}"
-        comandos_else = f"    {regras[6]}"
+        comandos_then = indentar(regras[4])
+        comandos_else = indentar(regras[6])
         buffer = f"if {regras[2]}:\n{comandos_then}\nelse:\n{comandos_else}"
+
     regras[0] = buffer
+
 
 def p_OBS(regras):
     '''

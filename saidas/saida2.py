@@ -4,18 +4,14 @@ def ligar(namedevice):
 def desligar(namedevice):
     print(namedevice + " desligado!")
 
-def alerta(namedevice, msg):
-    print(namedevice + " recebeu o alerta:\n")
-    print(msg)
-
-def alerta(namedevice, msg, var):
-    print(namedevice + " recebeu o alerta:\n")
-    print(msg + " " + str(var))
+def alerta(namedevice, msg, var=None):
+    print(namedevice + " recebeu o alerta:")
+    if var is not None:
+        print(msg + " " + str(var))
+    else:
+        print(msg)
     
-
-# Dispositivo: monitor
-# Dispositivo: celular
-# Dispositivo: Termometro, temperatura
+temperatura = 0
 if temperatura > 30:
     alerta("monitor", "Temperatura em ", temperatura)
-alerta("celular", "Temperatura em ", temperatura)
+    alerta("celular", "Temperatura em ", temperatura)

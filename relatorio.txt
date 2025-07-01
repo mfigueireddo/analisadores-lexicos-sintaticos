@@ -54,6 +54,16 @@ $ python main.py entradas/entrada6.obs
 $ python main.py entradas/entrada7.obs
 $ python main.py entradas/entrada8.obs
 
+Execução (testes)
+$ python saidas/saida1.py
+$ python saidas/saida2.py
+$ python saidas/saida3.py
+$ python saidas/saida4.py
+$ python saidas/saida5.py
+$ python saidas/saida6.py
+$ python saidas/saida7.py
+$ python saidas/saida8.py
+
 main.py
 - Arquivo que controla a leitura/escrita de dados
 - Lê o arquivo dito pelo usuário e o armazena numa string
@@ -83,7 +93,7 @@ Testes
 
 Para a implementação do programa, foram utilizados apenas os 8 casos testes mostrados no enunciado (com algumas adaptações)
 Todos eles se encontram na pasta /entradas.
-Após a conversão, todos os arquivos .py gerados foram executados e funcionaram adequadamente
+Após a conversão, todos os arquivos .py gerados foram executados e funcionaram adequadamente.
 
 --- * --- * --- * --- * --- * ---
 

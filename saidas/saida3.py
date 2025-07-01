@@ -4,19 +4,15 @@ def ligar(namedevice):
 def desligar(namedevice):
     print(namedevice + " desligado!")
 
-def alerta(namedevice, msg):
-    print(namedevice + " recebeu o alerta:\n")
-    print(msg)
-
-def alerta(namedevice, msg, var):
-    print(namedevice + " recebeu o alerta:\n")
-    print(msg + " " + str(var))
+def alerta(namedevice, msg, var=None):
+    print(namedevice + " recebeu o alerta:")
+    if var is not None:
+        print(msg + " " + str(var))
+    else:
+        print(msg)
     
-
-# Dispositivo: celular, movimento
-# Dispositivo: higromero, umidade
-# Dispositivo: lampada, potencia
-# Dispositivo: Monitor
+movimento = 0
+umidade = 0
 potencia = 100
 if umidade < 40:
     alerta("Monitor", "Ar seco detectado")
